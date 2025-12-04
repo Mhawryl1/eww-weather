@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+JSON=$(eww -c /home/darol/.config/eww/clock/ get JSON)
+deg=$(echo $JSON | jq '.list[0].wind.deg')
+
+# Normalize input (0–360)
+deg=$((deg % 360))
+
+# 8-direction wind rose
+if   [ $deg -ge 338 ] || [ $deg -lt 23 ];  then echo "$HOME/.config/eww/clock/img/arrow-up.svg"
+elif [ $deg -ge 23 ]  && [ $deg -lt 68 ];  then echo "$HOME/.config/eww/clock/img/arrow-up-right.svg"
+elif [ $deg -ge 68 ]  && [ $deg -lt 113 ]; then echo "$HOME/.config/eww/clock/img/arrow-right.svg"
+elif [ $deg -ge 113 ] && [ $deg -lt 158 ]; then echo "$HOME/.config/eww/clock/img/arrow-down-right.svg"
+elif [ $deg -ge 158 ] && [ $deg -lt 203 ]; then echo "$HOME/.config/eww/clock/img/arrow-down.svg"
+elif [ $deg -ge 203 ] && [ $deg -lt 248 ]; then echo "$HOME/.config/eww/clock/img/arrow-down-left.svg"
+elif [ $deg -ge 248 ] && [ $deg -lt 293 ]; then echo "$HOME/.config/eww/clock/img/arrow-left.svg"
+elif [ $deg -ge 293 ] && [ $deg -lt 338 ]; then echo "$HOME/.config/eww/clock/img/arrow-up-left.svg"
+fi
+

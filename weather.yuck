@@ -1,0 +1,220 @@
+(defpoll update-city :initial "" :interval "24h" "sh -c './scripts/get_geolocation.sh' &")
+(defpoll JSON :interval "180s"  "sh -c './scripts/update_json.sh' &" )
+(defpoll wind-icon :interval "180s" `./scripts/wind_dir` )
+(defpoll max-temp :interval "30s" "sh -c '~/.config/eww/clock/scripts/update_city.sh' &")
+(defpoll sun-rotation :initial "0" :interval "10ms" "./scripts/sun_rotation.sh")
+(defvar temp-svg "./img/temp24h.svg")
+
+(defwidget temp [] 
+  (overlay 
+           :valign "center"
+    (label :class "tempText"
+           :limit-width 4
+           :wrap false
+           :xalign 0.7
+           :text   "${round(JSON.list[0].main.temp, 0)}°" 
+    )
+      (overlay :class "sun-rotation" 
+           :halign "end" 
+           :valign "end" 
+        (transform  
+          :transform-origin-x "51%" 
+          :transform-origin-y "51%"
+          :rotate sun-rotation 
+          (image :style "padding-right: 5px; padding-top: 5px;"
+            :path { round(JSON.list[0].main.temp, 0) > 6  ?   "./img/sun.svg" : "./img/snow.svg"} 
+            :image-width  40 
+            :image-height 40
+            :halign "center"
+            :valign "center"
+          )
+        )
+
+      (box :style "margin-right: 10px; margin-top:5px;"
+        (image :style "padding-bottom: 2px;"
+          :path  "./img/temp.svg" 
+          :image-width 40 
+          :image-height 40
+          :halign "end"
+          :valign "center"
+          :hexpand false
+          :fill-svg "#FFFFFF"
+        )
+      )
+    )
+
+    (box :halign "start" :valign "end" :orientation "v" 
+       (label 
+           :yalign 1 
+           :style "padding-left: 10px; font-size: 15px; text-decoration:green wavy underline;" 
+           :text "feel: ${round(JSON.list[0].main.feels_like, 0)}°" )
+     )
+    (box 
+      :halign "start" 
+      :valign "end" 
+       (label :wrap true 
+              :style " color: black; font-size: 13px; background-color: dimgrey; margin-bottom: 17px; padding: 5px 0; border-radius: 10px;" 
+              :angle 90 
+               :text "${JSON.list[0].weather[0].description}"
+         )
+    )
+  )
+)
+
+(defwidget condition []
+  (box 
+    :style "background-color: rgba(40,40,40, .5); margin-right: 10px; border-radius: 10px;" 
+    :halign "center" 
+    :valign "center" 
+    :width 160
+    :height 90
+    (overlay 
+       (image :class "condition"  :image-height 60 :valign "center" :halign "start"
+        :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
+      )
+    (label :text "${JSON.city.name}" :valign "start" :halign "start" :style "padding: 15px;")
+    (box :valign "end"
+         :style "padding-left: 10px; "
+            (image :style "padding-bottom: 10px;"
+              :path  '${wind-icon}' 
+              :image-width 20
+              :image-height 20
+            )
+               (label :class "windText" :valign "end" :halign "end" :style "padding-right: 5px; padding-bottom: 9px;"
+               :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
+               )
+      )
+
+  )
+  )
+)
+
+
+(defwidget container []
+  (box :class "container" :orientation "h" 
+   (condition)
+    (temp)
+  )
+)
+(defvar rotate-angle 0)
+
+(defwidget city-input [isVisable]
+    (revealer :transition "slidedown"
+              :duration "500" 
+              :reveal isVisable
+      (box :class "input-box" :halign "center"  :space-evenly false :spacing 10
+      (eventbox 
+                :cursor "pointer"
+            (button :class "refresh-button" 
+                    :width 40 
+                    :height 40 
+                    :onclick "sh -c '~/.config/eww/clock/scripts/update_city.sh' &"
+                    (transform 
+                               :transform-origin-x "50%" 
+                               :transform-origin-y "50%" 
+                               :rotate rotate-angle
+              (image :path "./img/spin.svg"  
+                     :image-width 15 
+                     :image-height 15 
+                     :fill-svg "#AAFA0F" 
+                     :halign "center" 
+                     :valign "center"
+               )
+            )
+        )
+      )
+        (input :class "input-city"  
+        :value update-city
+        :onchange "${EWW_CMD} update update-city='{}'" 
+        :onaccept "sh -c '~/.config/eww/clock/scripts/update_city.sh' &"
+       ) 
+      )
+    )
+)
+
+(defvar  refresh-rate 39)
+(defpoll load :interval "1s" "awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) ; }' <(grep 'cpu ' /proc/stat) <(sleep 1;grep 'cpu ' /proc/stat)")
+
+(defwidget cpu-graph []
+  (overlay 
+    (graph
+          :height 110
+          :value "${EWW_CPU.avg}"
+          :time-range "30s"
+          :value load
+          :min 0
+          :max 100
+          :line-style "round"
+          :dynamic true
+        )
+    (box :style "background-color: rgba(40, 40, 40, 0.4);")
+    (box :class "plot-grid" :orientation "v"
+      (label :style "color:white; background-color: red; border-radius: 5px;" :text "100%" :halign "start" :valign "start" )
+      (label :style "color:grey;" :text "CPU Usage ${round(EWW_CPU, 0)} %" )
+      (label :style "color:white; background-color: green; padding: 3px; border-radius: 5px;" :text "0%" :halign "start"  :valign "end")
+    )
+  )
+)
+
+(defwidget temp-h []
+  (box :style "border-radius: 10px; padding: 5px; border: .2px solid greenyellow;"
+    (overlay :height 115
+      (label :style "padding-left: 10px; padding-bottom: 5px; font-size: 13px;" 
+        :text "Temperature last 24h"
+      )
+      (label :style "padding: 0 15px 5px 0;":text "max temp: ${round(max-temp, 0)}°" :valign "end" :halign "end")
+      (image  :image-width 450 
+        :image-height 160
+        :valign "center" 
+        :fill-svg "none"
+        :style "background-color: rgba(40, 40, 40, 0.5); border-radius: 10px; "
+        :path  temp-svg
+        :class "temp-svg"
+      )
+    )
+  )
+)
+
+(defwidget test []
+
+ (literal :content '(grid :rows 20 :cols 20 :row-spacing 10 :style "background-color: red;" ) ' )
+ 
+)
+
+(defvar HOVER_STATE false)
+
+(defwidget weather [internetStatus]
+  (box :orientation "v" :spacing 3 
+  (overlay
+    (eventbox 
+      :onhover "eww -c ~/.config/eww/clock update HOVER_STATE='true'" 
+      :onhoverlost "eww -c ~/.config/eww/clock update HOVER_STATE='false'"
+    (box :class "weather" 
+          :orientation "v" 
+          :halign "end" 
+          :space-evenly false 
+          :width 310
+    (container)
+    (city-input :isVisable "${HOVER_STATE}")
+    )
+  )
+    (box :style "background-color: rgba(40, 40, 40, 1); padding: 10px;" 
+         :visible internetStatus 
+         :orientation "v" 
+         :space-evenly false
+      (label :wrap true :text "Can reach the server. Check your internet connection!.")
+      (button :class "reconect-button"
+              :width 20 :height 40
+              :onclick "./scripts/connection_checker.sh"
+              
+      (label :wrap false :text "Reconnect")
+      )
+    )
+
+  )
+  (temp-h)
+  (cpu-graph)
+    (test)
+  )
+)
+

@@ -1,0 +1,140 @@
+/* ~/.config/eww/eww.scss */
+
+* {
+  all: unset; // Unsets everything so you can style everything from scratch
+}
+
+
+.sun-rotation {
+  background-color: red;
+}
+
+
+.clock {
+  background-color: rgba(40, 40, 40, 0.5);
+  border-radius: 10px;
+  color: #b0b4bc;
+  padding: 10px 25px;
+}
+
+.time {
+  font-family: 'Roboto Mono';
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.date {
+  font-size: 15px;
+  text-decoration: underline darkseagreen;
+}
+
+.weather {
+  margin: 0;
+  padding: 0;
+  background-color: rgba(40, 40, 40, 0.5);
+  border-radius: 10px;
+}
+
+
+.tempText {
+  border-radius: 0 10px 10px 0;
+  background-color: rgba(40, 40, 40, 0.5);
+  font-size: 70px;
+  font-weight: 300;
+  min-width: 110px;
+  font-family: 'Red Hat Display';
+}
+
+.tempImg {
+  margin-top: 30px;
+}
+
+.data {
+  background-color: rgba(40, 40, 40, 0.6);
+  border-radius: 10px;
+  color: #b0b4bc;
+  padding: 5px 10px;
+}
+
+
+.img-box {
+  padding: 10px 0 0 20px;
+}
+
+.condition {
+  border-radius: 10px 0 0 10px;
+  padding-left: 60px;
+  padding-bottom: 20px;
+}
+
+.condText {
+  background-color: rgba(40, 40, 200, 0.0);
+  font-size: 15px;
+}
+
+.container {
+  padding: 10px;
+}
+
+.input-box {
+  min-width: 170px;
+  margin: 10px;
+}
+
+.reconect-button {
+  background-color: grey;
+  border-radius: 10px;
+  margin: 0 60px;
+
+  &:hover {
+    background-color: blue;
+  }
+}
+
+.refresh-button {
+  border-radius: 10px;
+  transition: background-color 0.5s ease;
+
+  &:hover {
+    border: solid .1px greenyellow;
+    background-color: darkslategray;
+  }
+}
+
+.plot-grid {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  //linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 21px;
+  /* grid cell size */
+  background-position: 0px 0px;
+  border-radius: 10px;
+  border: solid .1px greenyellow;
+}
+
+.input-city {
+  color: rgb(200, 240, 200);
+  border: solid .1px greenyellow;
+  border-radius: 10px;
+  background-color: rgba(40, 50, 60, 1);
+  padding: 3px 8px;
+}
+
+@keyframes spin {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* apply to the widget element */
+.icon-spin {
+  animation: spin 2s linear infinite;
+}
+
+.temp-svg {
+  min-width: 150px;
+}

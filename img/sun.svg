@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg fill="#FFFA00" width="800px" height="800px" viewBox="0 0 32 32" id="icon" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+      }
+      #sun {
+        transform-origin: 18px 14px;
+        animation: rotate 8s linear infinite;
+      }
+      @keyframes rotate {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </defs>
+
+  <g id="sun">
+    <rect id="stroke" x="26" y="13" width="4" height="2"/>
+    <!-- <rect x="23.1214" y="5.879" width="3.9999" height="1.9998" transform="translate(2.4937 19.7783) rotate(-45)"/> -->
+    <!-- <rect x="24.1212" y="19.1214" width="1.9998" height="3.9999" transform="translate(-7.5773 23.9496) rotate(-45)"/> -->
+    <!-- <rect x="17" y="2" width="2" height="4"/> -->
+    <!-- <rect x="12" y="3" width="1.9998" height="3.9999" transform="translate(3 3) rotate(-1)"/> -->
+    <circle cx="18" cy="14" r="6" stroke="#FFFA00" stroke-width="2" fill="none"/>
+    <!-- <path d="M18,8a6.0365,6.0365,0,0,0-1,.09v2.0518A3.9567,3.9567,0,0,1,18,10a4,4,0,0,1,0,8v2A6,6,0,0,0,18,8Z"/> -->
+    
+     <use href="#stroke" transform="rotate(30 18 14)" />
+     <use href="#stroke" transform="rotate(60 18 14)" />
+     <use href="#stroke" transform="rotate(90 18 14)" />
+     <use href="#stroke" transform="rotate(120 18 14)" />
+     <use href="#stroke" transform="rotate(150 18 14)" />
+     <use href="#stroke" transform="rotate(180 18 14)" />
+     <use href="#stroke" transform="rotate(210 18 14)" />
+     <use href="#stroke" transform="rotate(240 18 14)" />
+     <use href="#stroke" transform="rotate(270 18 14)" />
+     <use href="#stroke" transform="rotate(300 18 14)" />
+     <use href="#stroke" transform="rotate(330 18 14)" />
+     <use href="#stroke" transform="rotate(360 18 14)" />
+  </g>
+
+  </svg>
+
+

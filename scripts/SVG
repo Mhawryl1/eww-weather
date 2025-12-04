@@ -1,0 +1,20 @@
+<svg class="svgTest" fill="rgba(40,40,40, 0.5)" viewBox="0 0 160 80" id="icon" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="-40" width="160" height="80" />
+  <line x1="0" y1="-40" x2="150" y2="-40" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-35" x2="150" y2="-35" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-30" x2="150" y2="-30" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-25" x2="150" y2="-25" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-20" x2="150" y2="-20" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-15" x2="150" y2="-15" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1="-10" x2="150" y2="-10" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "-5" x2="150" y2= "-5" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "0"  x2="150" y2= "0" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "5"  x2="150" y2= "5" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "10" x2="150" y2= "10" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "15" x2="150" y2= "15" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "20" x2="150" y2= "20" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "25" x2="150" y2= "25" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "30" x2="150" y2= "30" stroke-width=".1" stroke="#0F0000" />
+  <line x1="0" y1= "35" x2="150" y2= "35" stroke-width=".1" stroke="#0F0000" />
+
+"""M0 2.63L 4 0.9 L 8 0.66 L 12 -0.61 L 16 3.07 L 20 4.46 L 24 2.19 L 28 1.88 L 32 1.63 L 36 1.03 L 40 1.07 L 44 0.47 L 48 2.47 L 52 3.66 L 56 2.13 L 60 2.34 L 64 1.98 L 68 2.91 L 72 2.09 L 76 2.41 L 80 4.22 L 84 6.08 L 88 4.78 L 92 5.85 L 96 5.46 L 100 4.48 L 104 3.89 L 108 2.91 L 112 4.36 L 116 5.41 L 120 5.53 L 124 6.18 L 128 5.49 L 132 5.45 L 136 4.93 L 140 4.34 L 144 5.78 L 148 7.1 L 152 6.63 L 156 6.03 " stroke-width=".5" stroke="red" fill="none" /> </svg>

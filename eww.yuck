@@ -1,0 +1,70 @@
+(include "weather.yuck")
+
+(defpoll DATE :interval "1s" `date +\"%a %d %b %y\"`)
+(defpoll connected :interval "1m" "./scripts/connection_checker.sh")
+(defvar clock-icon "./img/animated_clock.svg")
+(defvar current-time "./scripts/current_time.sh")
+
+(defwidget time []
+  (box :class "clock" 
+       :orientation "v"
+       :halign "end"
+       :valign "center"
+       :hexpand  true
+       :vexpand  true
+    (label :class "time" :show-truncated false :halign "start" :valign "baseline" :wrap false  
+           :text "${formattime(EWW_TIME, "%T", "CET")}" )
+    (label :class "date" :show-truncated false :halign "end" :valign "baseline" :wrap false 
+      :text "${formattime(EWW_TIME, "%a %d %b %y", "CET")}")
+  )
+)
+(defwidget img-w [] 
+  
+  (overlay :class "img-box" :valign "center" :halign "center" 
+      (image :path clock-icon
+            :image-width 110 
+       )
+     (transform :rotate "${ formattime(EWW_TIME, "%S", "CET") * 1.6666 }" :transform-origin-x "50%" :transform-origin-y "50%"
+       (image :path "./img/animated_clock_second.svg"
+            :image-width 110 )
+        )
+    (transform :rotate "${ formattime(EWW_TIME, "%M", "CET") * 1.6666 }" :transform-origin-x "50%" :transform-origin-y "50%"
+      (image :path "./img/animated_clock_minute.svg"
+             :image-width 110 )
+        )
+    (transform :rotate "${ ( formattime(EWW_TIME, "%I", "CET") * 60  +  formattime(EWW_TIME, "%M", "CET") ) * 0.138   }" :transform-origin-x "50%" :transform-origin-y "50%"
+      (image :path "./img/animated_clock_hour.svg"
+             :image-width 110 )
+        )
+  )
+)
+
+(defwidget data []
+  (box :class "data" 
+       :space-evenly false
+  (img-w)
+  (time)
+  )
+)
+(defwindow clock-window
+           :monitor 0
+           :windowtype "dock"
+           :geometry (geometry :x "5px"
+                               :y "5px"
+                               :height "45px"
+                               :anchor "top right"
+                     )
+          
+           :namespace "eww-clock"
+           :stacking "bg"
+           :focusable "ondemand"
+  (box 
+    :orientation "v" 
+    :space-evenly false 
+    :spacing 2
+        (data)
+        (weather :internetStatus connected)
+  )
+)
+
+
