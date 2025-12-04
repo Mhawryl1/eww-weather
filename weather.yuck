@@ -63,7 +63,7 @@
 
 (defwidget condition []
   (box 
-    :style "background-color: rgba(40,40,40, .5); margin-right: 10px; border-radius: 10px;" 
+    :style "background-color: rgba(40,40,40, .7); margin-right: 10px; border-radius: 10px;" 
     :halign "center" 
     :valign "center" 
     :width 160
@@ -137,27 +137,27 @@
 
 (defwidget cpu-graph []
   (overlay 
+    (box :style "background-color: rgba(40, 40, 40, 0.8); padding: 10px; border-radius: 10px;")
+    (box :class "plot-grid" :orientation "v"
+      (label :style "color:white; background-color: red; border-radius: 5px;" :text "100%" :halign "start" :valign "start" )
+      (label :style "color:darkgrey;" :text "CPU Usage ${round( EWW_CPU.avg, 1)} %" )
+      (label :style "color:white; background-color: green; padding: 3px; border-radius: 5px;" :text "0%" :halign "start"  :valign "end")
+    )
     (graph
-          :height 110
+          :height 80
           :value "${EWW_CPU.avg}"
           :time-range "30s"
           :value load
           :min 0
           :max 100
-          :line-style "round"
+          :line-style "miter"
           :dynamic true
         )
-    (box :style "background-color: rgba(40, 40, 40, 0.4);")
-    (box :class "plot-grid" :orientation "v"
-      (label :style "color:white; background-color: red; border-radius: 5px;" :text "100%" :halign "start" :valign "start" )
-      (label :style "color:grey;" :text "CPU Usage ${round(EWW_CPU, 0)} %" )
-      (label :style "color:white; background-color: green; padding: 3px; border-radius: 5px;" :text "0%" :halign "start"  :valign "end")
-    )
   )
 )
 
 (defwidget temp-h []
-  (box :style "border-radius: 10px; padding: 5px; border: .2px solid greenyellow;"
+  (box :style "border-radius: 10px; padding: 5px; border: .2px solid greenyellow; background-color: rgba(40,40,40, 0.8);"
     (overlay :height 115
       (label :style "padding-left: 10px; padding-bottom: 5px; font-size: 13px;" 
         :text "Temperature last 24h"
@@ -167,7 +167,7 @@
         :image-height 160
         :valign "center" 
         :fill-svg "none"
-        :style "background-color: rgba(40, 40, 40, 0.5); border-radius: 10px; "
+        :style "background-color: rgba(40,40,40, 0.7)); border-radius: 10px; "
         :path  temp-svg
         :class "temp-svg"
       )
@@ -203,7 +203,8 @@
          :orientation "v" 
          :space-evenly false
       (label :wrap true :text "Can reach the server. Check your internet connection!.")
-      (button :class "reconect-button"
+      (button 
+              :class "reconect-button"
               :width 20 :height 40
               :onclick "./scripts/connection_checker.sh"
               

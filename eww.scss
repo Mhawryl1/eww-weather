@@ -6,12 +6,13 @@
 
 
 .sun-rotation {
+
   background-color: red;
 }
 
 
 .clock {
-  background-color: rgba(40, 40, 40, 0.5);
+  background-color: rgba(40, 40, 40, 0.7);
   border-radius: 10px;
   color: #b0b4bc;
   padding: 10px 25px;
@@ -31,14 +32,14 @@
 .weather {
   margin: 0;
   padding: 0;
-  background-color: rgba(40, 40, 40, 0.5);
+  background-color: rgba(40, 40, 40, 0.7);
   border-radius: 10px;
 }
 
 
 .tempText {
   border-radius: 0 10px 10px 0;
-  background-color: rgba(40, 40, 40, 0.5);
+  background-color: rgba(40, 40, 40, 0.7);
   font-size: 70px;
   font-weight: 300;
   min-width: 110px;
@@ -63,8 +64,7 @@
 
 .condition {
   border-radius: 10px 0 0 10px;
-  padding-left: 60px;
-  padding-bottom: 20px;
+  padding-left: 50px;
 }
 
 .condText {

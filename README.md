@@ -3,12 +3,11 @@
 
 A simple clock widget for [eww](https://github.com/elkowar/eww) (Elkowar's Wacky Widgets), a standalone widget system for Linux.
 
-
-![Alt text](img//eww-clock-widget.png)
-
+![Screenshot](img/eww-clock-widget.png)
 ## Features
 
 - Displays current time and date
+- Animated clock
 - Customizable appearance via eww configuration
 - Lightweight and efficient
 
@@ -27,25 +26,6 @@ A simple clock widget for [eww](https://github.com/elkowar/eww) (Elkowar's Wacky
 
 1. Start eww with your configuration.
 2. The clock widget should appear as defined in your eww configuration files (e.g., `eww.yuck` and `eww.scss`).
-
-Example eww configuration snippet (add to your `eww.yuck`):
-
-```yuck
-(defwidget clock []
-  (box :class "clock"
-    (label :text {time}))
-)
-```
-
-And in `eww.scss`:
-
-```scss
-.clock {
-  font-size: 24px;
-  color: white;
-}
-```
-
 3. Run eww: `eww open clock` (adjust based on your setup).
 
 ## Configuration

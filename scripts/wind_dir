@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-JSON=$(eww -c /home/darol/.config/eww/clock/ get JSON)
+JSON=$(eww -c ~/.config/eww/clock/ get JSON)
 deg=$(echo $JSON | jq '.list[0].wind.deg')
 
 # Normalize input (0–360)
