@@ -3,6 +3,9 @@
 
 A simple clock widget for [eww](https://github.com/elkowar/eww) (Elkowar's Wacky Widgets), a standalone widget system for Linux.
 
+
+![Alt text](img//eww-clock-widget.png)
+
 ## Features
 
 - Displays current time and date
