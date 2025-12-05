@@ -42,7 +42,8 @@
   background-color: rgba(40, 40, 40, 0.7);
   font-size: 70px;
   font-weight: 300;
-  min-width: 110px;
+  min-width: 90px;
+  min-height: 105px;
   font-family: 'Red Hat Display';
 }
 
@@ -82,14 +83,16 @@
 }
 
 .reconect-button {
-  background-color: grey;
+  background-color: red;
   border-radius: 10px;
   margin: 0 60px;
+  transition: all 0.3s linear;
 
   &:hover {
     background-color: blue;
   }
 }
+
 
 .refresh-button {
   border-radius: 10px;

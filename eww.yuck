@@ -1,7 +1,7 @@
 (include "weather.yuck")
 
 (defpoll DATE :interval "1s" `date +\"%a %d %b %y\"`)
-(defpoll connected :interval "1m" "./scripts/connection_checker.sh")
+(defpoll connected :interval "5m" "./scripts/connection_checker.sh")
 (defvar clock-icon "./img/animated_clock.svg")
 (defvar current-time "./scripts/current_time.sh")
 

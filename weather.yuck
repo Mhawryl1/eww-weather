@@ -4,12 +4,16 @@
 (defpoll max-temp :interval "30s" "sh -c '~/.config/eww/clock/scripts/update_city.sh' &")
 (defpoll sun-rotation :initial "0" :interval "10ms" "./scripts/sun_rotation.sh")
 (defvar temp-svg "./img/temp24h.svg")
+(defvar response  "")
+(defvar rotate-angle 0)
+(defvar msg-show false)
+(defvar message "")
+
 
 (defwidget temp [] 
   (overlay 
            :valign "center"
     (label :class "tempText"
-           :limit-width 4
            :wrap false
            :xalign 0.7
            :text   "${round(JSON.list[0].main.temp, 0)}°" 
@@ -46,7 +50,7 @@
     (box :halign "start" :valign "end" :orientation "v" 
        (label 
            :yalign 1 
-           :style "padding-left: 10px; font-size: 15px; text-decoration:green wavy underline;" 
+           :style "font-size: 15px; text-decoration:green wavy underline;" 
            :text "feel: ${round(JSON.list[0].main.feels_like, 0)}°" )
      )
     (box 
@@ -63,16 +67,23 @@
 
 (defwidget condition []
   (box 
-    :style "background-color: rgba(40,40,40, .7); margin-right: 10px; border-radius: 10px;" 
+    :style "background-color: rgba(40, 40, 40, 0.7); margin-right: 10px; border-radius: 10px 0 0px 10px;" 
     :halign "center" 
     :valign "center" 
     :width 160
-    :height 90
+    :height 110
     (overlay 
-       (image :class "condition"  :image-height 60 :valign "center" :halign "start"
-        :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
-      )
-    (label :text "${JSON.city.name}" :valign "start" :halign "start" :style "padding: 15px;")
+       (image :class "condition"  
+              :image-height 60 
+              :valign "center" :halign "start"
+              :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
+       )
+        (label 
+              :text "${JSON.city.name}" 
+              :valign "start" 
+              :halign "start" 
+              :style "padding: 15px;"
+        )
     (box :valign "end"
          :style "padding-left: 10px; "
             (image :style "padding-bottom: 10px;"
@@ -80,8 +91,12 @@
               :image-width 20
               :image-height 20
             )
-               (label :class "windText" :valign "end" :halign "end" :style "padding-right: 5px; padding-bottom: 9px;"
-               :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
+               (label 
+                  :class "windText" 
+                  :valign "end" 
+                  :halign "end" 
+                  :style "padding-right: 5px; padding-bottom: 9px;"
+                  :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
                )
       )
 
@@ -96,13 +111,20 @@
     (temp)
   )
 )
-(defvar rotate-angle 0)
-
 (defwidget city-input [isVisable]
     (revealer :transition "slidedown"
               :duration "500" 
-              :reveal isVisable
-      (box :class "input-box" :halign "center"  :space-evenly false :spacing 10
+              :reveal  { connected == true ? false : isVisable }  
+      (box :orientation "v" :height 10 :space-evenly false
+      (revealer
+          :transition "slidedown"
+          :reveal msg-show
+          (label 
+            :text message
+            :style "color: grey;"
+          )
+        )
+      (box  :class "input-box" :halign "center"  :space-evenly false :spacing 10
       (eventbox 
                 :cursor "pointer"
             (button :class "refresh-button" 
@@ -124,11 +146,12 @@
         )
       )
         (input :class "input-city"  
-        :value update-city
-        :onchange "${EWW_CMD} update update-city='{}'" 
-        :onaccept "sh -c '~/.config/eww/clock/scripts/update_city.sh' &"
-       ) 
+               :value update-city
+               :onchange "${EWW_CMD} update update-city='{}'" 
+               :onaccept "sh -c '~/.config/eww/clock/scripts/update_city.sh' &"
+        )
       )
+    )
     )
 )
 
@@ -159,10 +182,15 @@
 (defwidget temp-h []
   (box :style "border-radius: 10px; padding: 5px; border: .2px solid greenyellow; background-color: rgba(40,40,40, 0.8);"
     (overlay :height 115
-      (label :style "padding-left: 10px; padding-bottom: 5px; font-size: 13px;" 
-        :text "Temperature last 24h"
+      (label :style "padding-left: 10px; padding-top: 5px; font-size: 13px; color: darkgrey;"
+             :text "Temp next 4 days" 
+             :valign "start"
       )
-      (label :style "padding: 0 15px 5px 0;":text "max temp: ${round(max-temp, 0)}°" :valign "end" :halign "end")
+      (label 
+             :style "margin: 5px 15px 0 0; color:darkgrey;"
+             :text "max: ${round(max-temp, 0)}°" 
+             :valign "start" 
+             :halign "end")
       (image  :image-width 450 
         :image-height 160
         :valign "center" 
@@ -203,13 +231,14 @@
          :orientation "v" 
          :space-evenly false
       (label :wrap true :text "Can reach the server. Check your internet connection!.")
-      (button 
-              :class "reconect-button"
-              :width 20 :height 40
-              :onclick "./scripts/connection_checker.sh"
-              
-      (label :wrap false :text "Reconnect")
-      )
+          (button 
+            :class "reconect-button"
+            :width 20 
+            :height 40
+            :onclick "./scripts/connection_checker.sh"
+
+            (label :wrap false :text "Reconnect")
+          )
     )
 
   )

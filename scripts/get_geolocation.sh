@@ -5,5 +5,7 @@ if [ "$json" == "" ] ; then
     city="London"
 else
     city=$(echo "$json" | jq -r .city)
+    eww -c ~/.config/eww/clock update update-city="$city"
+    eww -c ~/.config/eww/clock update msg-show="false"
 fi
 echo "$city"
