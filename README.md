@@ -26,7 +26,7 @@ A simple clock widget for [eww](https://github.com/elkowar/eww) (Elkowar's Wacky
 
 1. Start eww with your configuration.
 2. The clock widget should appear as defined in your eww configuration files (e.g., `eww.yuck` and `eww.scss`).
-3. Run eww: `eww open clock` (adjust based on your setup).
+3. Run eww: bas`eww -c ~/.config/eww/clock open clock-windows` (adjust based on your setup).
 
 ## Configuration
 

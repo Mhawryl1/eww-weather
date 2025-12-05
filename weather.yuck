@@ -31,10 +31,10 @@
         )
 
       (box :style "margin-right: 10px; margin-top:5px;"
-        (image :style "padding-bottom: 2px;"
+        (image :style "padding-bottom: 4px;"
           :path  "./img/temp.svg" 
-          :image-width 40 
-          :image-height 40
+          :image-width 43 
+          :image-height 43
           :halign "end"
           :valign "center"
           :hexpand false

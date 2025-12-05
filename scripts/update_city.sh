@@ -22,4 +22,6 @@ eww -c ~/.config/eww/clock update JSON="$WEATHER"
 eww -c ~/.config/eww/clock update wind-icon="$(~/.config/eww/clock/scripts/wind_dir)"
 
 sh ~/.config/eww/clock/scripts/tempOverDay.sh
-eww -c ~/.config/eww/clock update temp-svg="./img/temp24h.svg"
+maxtmp=$(eww -c ~/.config/eww/clock get max-temp)
+sh ~/.config/eww/clock/scripts/temp_anim.sh "$maxtmp"
+#eww -c ~/.config/eww/clock update temp-svg="./img/temp24h.svg"
