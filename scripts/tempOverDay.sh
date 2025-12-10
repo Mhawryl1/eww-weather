@@ -61,7 +61,10 @@ elif(( $( echo "$max_value > 20"  | bc -l) )); then
     SVGCONTENT=$(cat "${SVG}.tmp" | sed -E "s/(viewBox=\"[0-9.-]+ )[0-9.-]+/\1-40/")
     SVGCONTENT=$(echo ${SVGCONTENT} | sed -E "s/(text id=\"day\" x=\"[0-9]+\" y=)\"[0-9]+/\1\"-10/g")
 elif(( $( echo "$max_value > 10"  | bc -l) )); then
-    SVGCONTENT=$(cat "${SVG}.tmp" | sed -E "s/(viewBox=\"[0-9.-]+ )[0-9.-]+/\1-34/")
+    SVGCONTENT=$(cat "${SVG}.tmp" | sed -E "s/(viewBox=\"[0-9.-]+ )[0-9.-]+/\1-36/")
+    SVGCONTENT=$(echo ${SVGCONTENT} | sed -E "s/(text id=\"day\" x=\"[0-9]+\" y=)\"[0-9]+/\1\"15/g")
+elif(( $( echo "$max_value > 5"  | bc -l) )); then
+    SVGCONTENT=$(cat "${SVG}.tmp" | sed -E "s/(viewBox=\"[0-9.-]+ )[0-9.-]+/\1-32/")
     SVGCONTENT=$(echo ${SVGCONTENT} | sed -E "s/(text id=\"day\" x=\"[0-9]+\" y=)\"[0-9]+/\1\"15/g")
 elif(( $( echo "$max_value > 0"  | bc -l) )); then
     SVGCONTENT=$(cat "${SVG}.tmp" | sed -E "s/(viewBox=\"[0-9.-]+ )[0-9.-]+/\1-27/")

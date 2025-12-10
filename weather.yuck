@@ -3,17 +3,19 @@
 (defpoll wind-icon :interval "180s" `./scripts/wind_dir` )
 (defpoll max-temp :interval "30s" "sh -c '~/.config/eww/clock/scripts/update_city.sh' &")
 (defpoll sun-rotation :initial "0" :interval "10ms" "./scripts/sun_rotation.sh")
-(defvar temp-svg "./img/temp24h.svg")
+(defvar temp24-svg "./img/temp24h.svg")
 (defvar response  "")
 (defvar rotate-angle 0)
 (defvar msg-show false)
 (defvar message "")
+(defvar temp-svg "./img/temp.svg")
 
 
 (defwidget temp [] 
   (overlay 
            :valign "center"
-    (label :class "tempText"
+           :width 145
+    (label :class "temp-text"
            :wrap false
            :xalign 0.7
            :text   "${round(JSON.list[0].main.temp, 0)}°" 
@@ -36,7 +38,7 @@
 
       (box :style "margin-right: 10px; margin-top:5px;"
         (image :style "padding-bottom: 4px;"
-          :path  "./img/temp.svg" 
+          :path  temp-svg
           :image-width 43 
           :image-height 43
           :halign "end"
@@ -49,25 +51,16 @@
 
     (box :halign "start" :valign "end" :orientation "v" 
        (label 
-           :yalign 1 
-           :style "font-size: 15px; text-decoration:green wavy underline;" 
+           :style "padding: 0 0 2px 10px; font-size: 15px; text-decoration:green wavy underline;" 
            :text "feel: ${round(JSON.list[0].main.feels_like, 0)}°" )
      )
-    (box 
-      :halign "start" 
-      :valign "end" 
-       (label :wrap true 
-              :style " color: black; font-size: 13px; background-color: dimgrey; margin-bottom: 17px; padding: 5px 0; border-radius: 10px;" 
-              :angle 90 
-               :text "${JSON.list[0].weather[0].description}"
-         )
-    )
+    
   )
 )
 
 (defwidget condition []
   (box 
-    :style "background-color: rgba(40, 40, 40, 0.7); margin-right: 10px; border-radius: 10px 0 0px 10px;" 
+    :class "box-condition"
     :halign "center" 
     :valign "center" 
     :width 160
@@ -79,7 +72,8 @@
               :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
        )
         (label 
-              :text "${JSON.city.name}" 
+              :text "${JSON.city.name}"
+              :class "city-name"
               :valign "start" 
               :halign "start" 
               :style "padding: 15px;"
@@ -97,7 +91,7 @@
                   :halign "end" 
                   :style "padding-right: 5px; padding-bottom: 9px;"
                   :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
-               )
+              )
       )
 
   )
@@ -106,8 +100,18 @@
 
 
 (defwidget container []
-  (box :class "container" :orientation "h" 
+  (box :class "container" :orientation "h" :space-evenly false
    (condition)
+    (box 
+      :halign "start" 
+      :valign "center" 
+      :width 30
+       (label :wrap true 
+              :class "cloud-desc"
+              :angle 90 
+               :text "${JSON.list[0].weather[0].description}"
+         )
+    )
     (temp)
   )
 )
@@ -160,7 +164,7 @@
 
 (defwidget cpu-graph []
   (overlay 
-    (box :style "background-color: rgba(40, 40, 40, 0.8); padding: 10px; border-radius: 10px;")
+    (box :class "cpu-graph")
     (box :class "plot-grid" :orientation "v"
       (label :style "color:white; background-color: red; border-radius: 5px;" :text "100%" :halign "start" :valign "start" )
       (label :style "color:darkgrey;" :text "CPU Usage ${round( EWW_CPU.avg, 1)} %" )
@@ -180,7 +184,7 @@
 )
 
 (defwidget temp-h []
-  (box :style "border-radius: 10px; padding: 5px; border: .2px solid greenyellow; background-color: rgba(40,40,40, 0.8);"
+  (box :class "temp-h"
     (overlay :height 115
       (label :style "padding-left: 10px; padding-top: 5px; font-size: 13px; color: darkgrey;"
              :text "Temp next 4 days" 
@@ -196,17 +200,11 @@
         :valign "center" 
         :fill-svg "none"
         :style "background-color: rgba(40,40,40, 0.7)); border-radius: 10px; "
-        :path  temp-svg
+        :path  temp24-svg
         :class "temp-svg"
       )
     )
   )
-)
-
-(defwidget test []
-
- (literal :content '(grid :rows 20 :cols 20 :row-spacing 10 :style "background-color: red;" ) ' )
- 
 )
 
 (defvar HOVER_STATE false)
@@ -244,7 +242,6 @@
   )
   (temp-h)
   (cpu-graph)
-    (test)
   )
 )
 

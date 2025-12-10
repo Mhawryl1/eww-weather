@@ -1,6 +1,5 @@
 (include "weather.yuck")
 
-(defpoll DATE :interval "1s" `date +\"%a %d %b %y\"`)
 (defpoll connected :interval "5m" "./scripts/connection_checker.sh")
 (defvar clock-icon "./img/animated_clock.svg")
 (defvar current-time "./scripts/current_time.sh")
@@ -12,17 +11,24 @@
        :valign "center"
        :hexpand  true
        :vexpand  true
-    (label :class "time" :show-truncated false :halign "start" :valign "baseline" :wrap false  
-           :text "${formattime(EWW_TIME, "%T", "CET")}" )
+    (label 
+        :class "time" :show-truncated false 
+        :halign "start" 
+        :valign "baseline" 
+        :wrap false  
+        :text "${formattime(EWW_TIME, "%T", "CET")}" )
     (label :class "date" :show-truncated false :halign "end" :valign "baseline" :wrap false 
       :text "${formattime(EWW_TIME, "%a %d %b %y", "CET")}")
   )
 )
 (defwidget img-w [] 
   
-  (overlay :class "img-box" :valign "center" :halign "center" 
+  (overlay :class "img-box" 
+           :valign "center" 
+           :halign "center"
       (image :path clock-icon
-            :image-width 110 
+             :style "padding-bottom: 5px;"
+             :image-width 110 
        )
      (transform :rotate "${ formattime(EWW_TIME, "%S", "CET") * 1.6666 }" :transform-origin-x "50%" :transform-origin-y "50%"
        (image :path "./img/animated_clock_second.svg"

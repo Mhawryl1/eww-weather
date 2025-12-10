@@ -1,27 +1,58 @@
 /* ~/.config/eww/eww.scss */
 
+
+@import "colors";
+
+$on_secondary_fixed: rgba(40, 40, 40, 0.7) !default;
+$secondary_container: rgba(40, 40, 40, 0.7) !default;
+$tertiary: black !default;
+$on_surface: lightgrey !default;
+
 * {
   all: unset; // Unsets everything so you can style everything from scratch
 }
 
-
 .sun-rotation {
-
   background-color: red;
 }
 
-
 .clock {
-  background-color: rgba(40, 40, 40, 0.7);
+  background-color: rgba($secondary_container, 0.3);
+  //background-color: rgba(40, 40, 40, 0.7);
   border-radius: 10px;
   color: #b0b4bc;
   padding: 10px 25px;
+}
+
+.cpu-graph {
+  background-color: rgba($on_secondary_fixed , 0.8);
+  padding: 10px;
+  border-radius: 10px;
+
+}
+
+.plot-grid {
+  background-image: linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  //linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
+  background-size: 20px 21px;
+  /* grid cell size */
+  background-position: 0px 0px;
+  border-radius: 10px;
+  border: solid .1px greenyellow;
+}
+
+.temp-h {
+  border-radius: 10px;
+  padding: 5px;
+  border: .2px solid greenyellow;
+  background-color: rgba($on_secondary_fixed, 0.9);
 }
 
 .time {
   font-family: 'Roboto Mono';
   font-size: 30px;
   font-weight: bold;
+  color: $on_surface;
 }
 
 .date {
@@ -32,18 +63,20 @@
 .weather {
   margin: 0;
   padding: 0;
-  background-color: rgba(40, 40, 40, 0.7);
+  background-color: rgba($on_secondary_fixed, 0.9);
   border-radius: 10px;
 }
 
 
-.tempText {
-  border-radius: 0 10px 10px 0;
-  background-color: rgba(40, 40, 40, 0.7);
+.temp-text {
+  border-radius: 10px;
+  background-color: rgba($secondary_container, 0.3);
   font-size: 70px;
   font-weight: 300;
+  color: $on_surface;
   min-width: 90px;
   min-height: 105px;
+  margin-left: 5px;
   font-family: 'Red Hat Display';
 }
 
@@ -51,13 +84,13 @@
   margin-top: 30px;
 }
 
+
 .data {
-  background-color: rgba(40, 40, 40, 0.6);
+  background-color: rgba($on_secondary_fixed, 0.9);
   border-radius: 10px;
   color: #b0b4bc;
   padding: 5px 10px;
 }
-
 
 .img-box {
   padding: 10px 0 0 20px;
@@ -68,13 +101,33 @@
   padding-left: 50px;
 }
 
+.box-condition {
+  background-color: rgba($secondary_container, 0.3);
+  margin-right: 5px;
+  border-radius: 10px;
+}
+
 .condText {
   background-color: rgba(40, 40, 200, 0.0);
   font-size: 15px;
 }
 
+.city-name {
+  color: $on_surface;
+}
+
 .container {
   padding: 10px;
+}
+
+.cloud-desc {
+  color: $on_surface;
+  font-size: 13px;
+  background-color: rgba($secondary_container, 0.3);
+  margin-bottom: 5px;
+  padding: 5px 0;
+  border-radius: 9px;
+  min-height: 80px
 }
 
 .input-box {
@@ -104,22 +157,12 @@
   }
 }
 
-.plot-grid {
-  background-image:
-    linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  //linear-gradient(90deg, rgba(255, 255, 255, 0.15) 1px, transparent 1px);
-  background-size: 20px 21px;
-  /* grid cell size */
-  background-position: 0px 0px;
-  border-radius: 10px;
-  border: solid .1px greenyellow;
-}
 
 .input-city {
   color: rgb(200, 240, 200);
   border: solid .1px greenyellow;
   border-radius: 10px;
-  background-color: rgba(40, 50, 60, 1);
+  background-color: rgba($secondary_container, 0.3);
   padding: 3px 8px;
 }
 

@@ -33,9 +33,10 @@ if [[ $resp_code == 200 ]]; then
     eww -c ~/.config/eww/clock update wind-icon="$(~/.config/eww/clock/scripts/wind_dir)"
     eww -c ~/.config/eww/clock update msg-show="false"
     sh ~/.config/eww/clock/scripts/tempOverDay.sh
-    maxtmp=$(eww -c ~/.config/eww/clock get max-temp)
-    sh ~/.config/eww/clock/scripts/temp_anim.sh "$maxtmp"
-    eww -c ~/.config/eww/clock update temp-svg="./img/temp24h.svg"
+    tmp=$(echo $WEATHER | jq -r '.list[0].main.temp')
+    sh ~/.config/eww/clock/scripts/temp_anim.sh "$tmp"
+    eww -c ~/.config/eww/clock update temp-svg="./img/temp.svg"
+    eww -c ~/.config/eww/clock update temp24-svg="./img/temp24h.svg"
 elif [[ $resp_code == 404 ]]; then
     eww -c ~/.config/eww/clock update message="$(echo "$WEATHER" | jq -r '.message')"
     eww -c ~/.config/eww/clock update msg-show="true"
