@@ -1,13 +1,19 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
+EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
 
-CITY="$(/usr/bin/eww -c ~/.config/eww/clock get update-city)"
+CITY="$($EWW_CMD get update-city)"
+if [ -z "$CITY" ]; then
+    ./scripts/get_geolocation.sh
+fi
 counter=10
-while  [ "$CITY" == "" ] && [ $counter -gt 0 ] ; do
+while  [ -z "$CITY" ] && [ $counter -gt 0 ] ; do
     sleep 1
-    CITY="$(/usr/bin/eww -c ~/.config/eww/clock get update-city)"
+    CITY="$($EWW_CMD get update-city)"
     ((counter-- ))
 done
-if [ "$CITY" == "" ] ; then
+if [ -z "$CITY" ] ; then
     CITY="London"
 fi
-~/.config/eww/clock/bin/weather -c ${CITY} -u METRIC
+JSON=$(~/.config/eww/clock/bin/fetch -c ${CITY} -u METRIC)
+eww $EWW_CMD update JSON="$JSON"
+~/.config/eww/clock/scripts/update_city.sh

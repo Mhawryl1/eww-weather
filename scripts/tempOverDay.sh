@@ -1,6 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
+EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
 
-JSON=$(eww -c ~/.config/eww/clock get JSON)
+JSON=$($EWW_CMD get JSON)
 JSON=$(printf "%s\n" "$JSON" | sed '1s/^[^{]*//')
 
 i=0
@@ -76,4 +77,4 @@ fi
 echo $SVGCONTENT >"${SVG}.tmp"
 cat "${SVG}.tmp" > $SVG
 
-eww -c ~/.config/eww/clock update max-temp="$max_value"
+$EWW_CMD update max-temp="$max_value"

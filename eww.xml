@@ -1,0 +1,20 @@
+<eww>
+    <definitions>    
+        <def name="simple_box">
+            <box>i'm a box!</box>
+        </def>
+    </definitions>
+
+    <variables>
+        <var name="x_pos">300px</var>
+    </variables>
+
+    <windows>    
+        <window name="simple_box" screen="0" >
+            <geometry x="500px" y="900px" width="200px" height="200px"/>
+            <widget >
+                <simple_box/>
+            </widget>
+        </window>
+    </windows>
+</eww>

@@ -1,8 +1,11 @@
+(defvar wx 0)
+(defvar wy "0")
 (include "weather.yuck")
 
 (defpoll connected :interval "5m" "./scripts/connection_checker.sh")
 (defvar clock-icon "./img/animated_clock.svg")
 (defvar current-time "./scripts/current_time.sh")
+
 
 (defwidget time []
   (box :class "clock" 
@@ -70,6 +73,23 @@
     :spacing 2
         (data)
         (weather :internetStatus connected)
+  )
+)
+(defwindow zoom-temp
+           :monitor 0
+           :windowtype "dialog"
+           :stacking "fg"
+           :geometry (geometry :width "120px"
+                               :height "60px"
+                               :x 0
+                               :y 0
+                    )
+  (box
+      :orientation "v"
+      (label 
+            :text "Control text"
+            :style "background-color: rgba(50, 50, 50 , 0.7); color: white;"
+      )
   )
 )
 

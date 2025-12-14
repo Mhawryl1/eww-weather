@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 hex_to_rgb() {
     local hex=${1#"#"}

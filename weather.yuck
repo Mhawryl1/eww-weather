@@ -1,15 +1,15 @@
-(defpoll update-city :initial "" :interval "24h" "sh -c './scripts/get_geolocation.sh' &")
-(defpoll JSON :interval "180s"  "sh -c './scripts/update_json.sh' &" )
-(defpoll wind-icon :interval "180s" `./scripts/wind_dir` )
-(defpoll max-temp :interval "30s" "sh -c '~/.config/eww/clock/scripts/update_city.sh' &")
-(defpoll sun-rotation :initial "0" :interval "10ms" "./scripts/sun_rotation.sh")
+(defvar update-city "")
+(defpoll JSON :interval "5min"  "sh -c './scripts/update_json.sh' &" )
+(defvar wind-icon  "arrow-up.svg" )
+(defvar max-temp "0°")
+(defvar sun-rotation "0")
 (defvar temp24-svg "./img/temp24h.svg")
 (defvar response  "")
 (defvar rotate-angle 0)
 (defvar msg-show false)
 (defvar message "")
 (defvar temp-svg "./img/temp.svg")
-
+(defvar hover-state false)
 
 (defwidget temp [] 
   (overlay 
@@ -125,7 +125,9 @@
           :reveal msg-show
           (label 
             :text message
-            :style "color: grey;"
+            :class "text-message"
+            :width 150
+            :wrap true
           )
         )
       (box  :class "input-box" :halign "center"  :space-evenly false :spacing 10
@@ -182,46 +184,50 @@
         )
   )
 )
-
 (defwidget temp-h []
-  (box :class "temp-h"
-    (overlay :height 115
-      (label :style "padding-left: 10px; padding-top: 5px; font-size: 13px; color: darkgrey;"
-             :text "Temp next 4 days" 
-             :valign "start"
-      )
-      (label 
-             :style "margin: 5px 15px 0 0; color:darkgrey;"
-             :text "max: ${round(max-temp, 0)}°" 
-             :valign "start" 
-             :halign "end")
-      (image  :image-width 450 
-        :image-height 160
-        :valign "center" 
-        :fill-svg "none"
-        :style "background-color: rgba(40,40,40, 0.7)); border-radius: 10px; "
-        :path  temp24-svg
-        :class "temp-svg"
+  (eventbox 
+         :cursor "pointer"
+         :onhover "~/.config/eww/clock/scripts/temp24h_zoom.sh"
+         :onhoverlost "~/.config/eww/clock/scripts/temp24h_zoom.sh"
+    (box :class "temp-h"
+      (overlay :height 115
+        (label :style "padding-left: 10px; padding-top: 5px; font-size: 13px; color: darkgrey;"
+          :text "Temp next 4 days" 
+          :valign "start"
+        )
+        (label 
+          :style "margin: 5px 15px 0 0; color:darkgrey;"
+          :text "max: ${round(max-temp, 0)}°" 
+          :valign "start" 
+          :halign "end")
+        (image 
+          :width 450 
+          :height 160
+          :valign "center" 
+          :fill-svg "none"
+          :style "background-color: rgba(40,40,40, 0.7)); border-radius: 10px; "
+          :path  temp24-svg
+          :class "temp-svg"
+        )
       )
     )
   )
 )
 
-(defvar HOVER_STATE false)
 
 (defwidget weather [internetStatus]
   (box :orientation "v" :spacing 3 
   (overlay
     (eventbox 
-      :onhover "eww -c ~/.config/eww/clock update HOVER_STATE='true'" 
-      :onhoverlost "eww -c ~/.config/eww/clock update HOVER_STATE='false'"
+      :onhover "sh -c './scripts/sun_rotation.sh' &" 
+      :onhoverlost "eww -c ~/.config/eww/clock update hover-state='false'"
     (box :class "weather" 
           :orientation "v" 
           :halign "end" 
           :space-evenly false 
           :width 310
     (container)
-    (city-input :isVisable "${HOVER_STATE}")
+    (city-input :isVisable "${hover-state}")
     )
   )
     (box :style "background-color: rgba(40, 40, 40, 1); padding: 10px;" 

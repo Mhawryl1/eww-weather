@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
 
-
-angle=$(eww -c ~/.config/eww/clock get rotate-angle)
+angle=$($EWW_CMD get rotate-angle)
 
 angle=$(( (angle + 1) % 360 ))
-#eww -c ~/.config/eww/clock update rotate-angle=$angle echo $angle
+#$EWW_CMD update rotate-angle=$angle echo $angle

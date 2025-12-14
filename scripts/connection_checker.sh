@@ -1,8 +1,13 @@
-#!/bin/bash
+#!/usr/bin/env bash
+EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
+
 ping -c 1  "www.google.com" || {
-    eww -c ~/.config/eww/clock update connected=true
+    $EWW_CMD update connected=true
     exit 1
 }
-eww -c ~/.config/eww/clock update connected=false
-sh ~/.config/eww/clock/scripts/get_geolocation.sh
-sh ~/.config/eww/clock/scripts/update_city.sh
+$EWW_CMD update connected=false
+city=$($EWW_CMD get update_city)
+if [ "$city" == "" ]; then
+    sh ~/.config/eww/clock/scripts/get_geolocation.sh
+fi
+

@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
+JSON=$($EWW_CMD get JSON)
 
-deg=$1
+deg=$(echo $JSON | jq '.list[0].wind.deg')
 
 # Normalize input (0–360)
 deg=$((deg % 360))
