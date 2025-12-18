@@ -2,6 +2,7 @@
 EWW_CMD=$(eww -c . get EWW_CMD | tr -d '"')
 
 CITY="$($EWW_CMD get update-city)"
+
 if [ -z "$CITY" ]; then
     ./scripts/get_geolocation.sh
 fi
@@ -15,5 +16,5 @@ if [ -z "$CITY" ] ; then
     CITY="London"
 fi
 JSON=$(~/.config/eww/clock/bin/fetch -c ${CITY} -u METRIC)
-eww $EWW_CMD update JSON="$JSON"
+$EWW_CMD update JSON="$JSON"
 ~/.config/eww/clock/scripts/update_city.sh

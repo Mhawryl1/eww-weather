@@ -4,3 +4,5 @@ temp24_try.svg
 temp.svg.tmp
 .openweather
 exchange_key
+.save_city.txt
+.prev_geolocation.txt

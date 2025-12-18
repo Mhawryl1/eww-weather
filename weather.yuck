@@ -10,108 +10,233 @@
 (defvar message "")
 (defvar temp-svg "./img/temp.svg")
 (defvar hover-state false)
+(defvar mousepos "0,0")
+(defvar cond-card 0)
+
 
 (defwidget temp [] 
-  (overlay 
-           :valign "center"
-           :width 145
-    (label :class "temp-text"
+  
+  (stack 
+    :selected cond-card
+    :transition "slideleft"
+    (overlay 
+         :valign "center"
+         :width 145
+         (label :class "temp-text"
            :wrap false
            :xalign 0.7
            :text   "${round(JSON.list[0].main.temp, 0)}°" 
-    )
-      (overlay :class "sun-rotation" 
+         )
+         (overlay :class "sun-rotation" 
            :halign "end" 
            :valign "end" 
-        (transform  
-          :transform-origin-x "51%" 
-          :transform-origin-y "51%"
-          :rotate sun-rotation 
-          (image :style "padding-right: 5px; padding-top: 5px;"
-            :path { round(JSON.list[0].main.temp, 0) > 6  ?   "./img/sun.svg" : "./img/snow.svg"} 
-            :image-width  40 
-            :image-height 40
-            :halign "center"
-            :valign "center"
-          )
-        )
+           (transform  
+             :transform-origin-x "51%" 
+             :transform-origin-y "51%"
+             :rotate sun-rotation 
+             (image :style "padding-right: 5px; padding-top: 5px;"
+               :path { round(JSON.list[0].main.temp, 0) > 6  ?   "./img/sun.svg" : "./img/snow.svg"} 
+               :image-width  40 
+               :image-height 40
+               :halign "center"
+               :valign "center"
+             )
+           )
 
-      (box :style "margin-right: 10px; margin-top:5px;"
-        (image :style "padding-bottom: 4px;"
-          :path  temp-svg
-          :image-width 43 
-          :image-height 43
-          :halign "end"
-          :valign "center"
-          :hexpand false
-          :fill-svg "#FFFFFF"
-        )
-      )
+           (box :style "margin-right: 10px; margin-top:5px;"
+             (image :style "padding-bottom: 4px;"
+               :path  temp-svg
+               :image-width 43 
+               :image-height 43
+               :halign "end"
+               :valign "center"
+               :hexpand false
+               :fill-svg "#FFFFFF"
+             )
+           )
+         )
+
+         (box :halign "start" :valign "end" :orientation "v" 
+           (label 
+             :style "padding: 0 0 2px 10px; font-size: 15px; text-decoration:green wavy underline;" 
+             :text "feel: ${round(JSON.list[0].main.feels_like, 0)}°" )
+         )
+
     )
+    (overlay 
+         :valign "center"
+         :width 145
+         (label :class "temp-text"
+           :wrap false
+           :xalign 0.7
+           :text   "${round(JSON.list[8].main.temp, 0)}°" 
+         )
+         (overlay :class "sun-rotation" 
+           :halign "end" 
+           :valign "end" 
+           (transform  
+             :transform-origin-x "51%" 
+             :transform-origin-y "51%"
+             :rotate sun-rotation 
+             (image :style "padding-right: 5px; padding-top: 5px;"
+               :path { round(JSON.list[8].main.temp, 0) > 6  ?   "./img/sun.svg" : "./img/snow.svg"} 
+               :image-width  40 
+               :image-height 40
+               :halign "center"
+               :valign "center"
+             )
+           )
 
-    (box :halign "start" :valign "end" :orientation "v" 
-       (label 
-           :style "padding: 0 0 2px 10px; font-size: 15px; text-decoration:green wavy underline;" 
-           :text "feel: ${round(JSON.list[0].main.feels_like, 0)}°" )
-     )
-    
+           (box :style "margin-right: 10px; margin-top:5px;"
+             (image :style "padding-bottom: 4px;"
+               :path  temp-svg
+               :image-width 43 
+               :image-height 43
+               :halign "end"
+               :valign "center"
+               :hexpand false
+               :fill-svg "#FFFFFF"
+             )
+           )
+         )
+
+         (box :halign "start" :valign "end" :orientation "v" 
+           (label 
+             :style "padding: 0 0 2px 10px; font-size: 15px; text-decoration:green wavy underline;" 
+             :text "feel: ${round(JSON.list[8].main.feels_like, 0)}°" )
+         )
+
+    )
   )
 )
+
 
 (defwidget condition []
-  (box 
-    :class "box-condition"
-    :halign "center" 
-    :valign "center" 
-    :width 160
-    :height 110
-    (overlay 
-       (image :class "condition"  
-              :image-height 60 
-              :valign "center" :halign "start"
-              :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
-       )
-        (label 
-              :text "${JSON.city.name}"
-              :class "city-name"
-              :valign "start" 
-              :halign "start" 
-              :style "padding: 15px;"
-        )
-    (box :valign "end"
-         :style "padding-left: 10px; "
-            (image :style "padding-bottom: 10px;"
-              :path  '${wind-icon}' 
-              :image-width 20
-              :image-height 20
-            )
+  (eventbox 
+      :cursor "pointer"
+      :onclick "./scripts/switch_card.sh"
+      (stack :selected cond-card 
+             :transition "slideleft"
+         (box 
+           :class "box-condition"
+           :halign "center" 
+           :valign "center" 
+           :width 160
+           :height 110
+           (overlay 
+             (image :class "condition"  
+               :image-height 60 
+               :valign "center" :halign "start"
+               :path  "./img/${JSON.list[0].weather[0].icon}@2x.svg"  
+             )
+             (label 
+               :text "${JSON.city.name}"
+               :class "city-name"
+               :valign "start" 
+               :halign "start" 
+               :style "padding-top: 5px; padding-left: 10px;"
+             )
+              (label 
+                 :valign "start" 
+                 :halign "end" 
+                 :style "padding-right: 10px; padding-top: 9px; color: darkgrey;"
+                 :text "Now" 
+               )
+             (box :valign "end"
+               :style "padding-left: 10px; "
+               (image :style "padding-bottom: 10px;"
+                 :path  '${wind-icon}' 
+                 :image-width 20
+                 :image-height 20
+               )
                (label 
-                  :class "windText" 
-                  :valign "end" 
-                  :halign "end" 
-                  :style "padding-right: 5px; padding-bottom: 9px;"
-                  :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
-              )
-      )
-
-  )
-  )
+                 :class "windText" 
+                 :valign "end" 
+                 :halign "end" 
+                 :style "padding-right: 5px; padding-bottom: 9px;"
+                 :text "${round(JSON.list[0].wind.speed * 3.6, 0)} km/h"
+               )
+             )
+           )
+         )
+         (box 
+           :class "box-condition"
+           :halign "center" 
+           :valign "center" 
+           :width 160
+           :height 110
+           (overlay 
+             (image :class "condition"  
+               :image-height 60 
+               :valign "center" :halign "start"
+               :path  "./img/${JSON.list[4].weather[0].icon}@2x.svg"  
+             )
+             (label 
+               :text "${JSON.city.name}"
+               :class "city-name"
+               :valign "start" 
+               :halign "start" 
+               :style "padding-top: 5px; padding-left: 10px;"
+             )
+              (label 
+                 :valign "start" 
+                 :halign "end" 
+                 :style "padding-right: 10px; padding-top: 9px; color: darkgrey;"
+                 :text "${ formattime(JSON.list[8].dt, "%d %b", "CET") }"
+               )
+             (box :valign "end"
+               :style "padding-left: 10px; "
+               (image :style "padding-bottom: 10px;"
+                 :path  '${wind-icon}' 
+                 :image-width 20
+                 :image-height 20
+               )
+               (label 
+                 :class "windText" 
+                 :valign "end" 
+                 :halign "end" 
+                 :style "padding-right: 5px; padding-bottom: 9px;"
+                 :text "${round(JSON.list[8].wind.speed * 3.6, 0)} km/h"
+               )
+             )
+          )
+        ) 
+  )  )
 )
 
 
-(defwidget container []
-  (box :class "container" :orientation "h" :space-evenly false
-   (condition)
+(defwidget cloud-desc []
+  (stack
+       :selected cond-card
+       :transition "slideleft"
     (box 
       :halign "start" 
       :valign "center" 
       :width 30
-       (label :wrap true 
-              :class "cloud-desc"
-              :angle 90 
-               :text "${JSON.list[0].weather[0].description}"
-         )
+      (label :wrap true 
+        :class "cloud-desc"
+        :angle 90 
+        :text "${JSON.list[0].weather[0].description}"
+      )
     )
+
+    (box 
+      :halign "start" 
+      :valign "center" 
+      :width 30
+      (label :wrap true 
+        :class "cloud-desc"
+        :angle 90 
+        :text "${JSON.list[8].weather[0].description}"
+      )
+    )
+  )
+)
+
+(defwidget container []
+  (box :class "container" :orientation "h" :space-evenly false
+   (condition)
+   (cloud-desc)
     (temp)
   )
 )
@@ -154,7 +279,7 @@
         (input :class "input-city"  
                :value update-city
                :onchange "${EWW_CMD} update update-city='{}'" 
-               :onaccept "sh -c '~/.config/eww/clock/scripts/update_city.sh' &"
+               :onaccept "sh -c './scripts/update_city.sh && ./scripts/save_city.sh' &"
         )
       )
     )
@@ -187,8 +312,9 @@
 (defwidget temp-h []
   (eventbox 
          :cursor "pointer"
-         :onhover "~/.config/eww/clock/scripts/temp24h_zoom.sh"
-         :onhoverlost "~/.config/eww/clock/scripts/temp24h_zoom.sh"
+         :onclick  "./scripts/temp24h_zoom.sh"
+         :onhover "./scripts/update_mouse_pos.sh"
+         :onhoverlost "${EWW_CMD} update mousepos='0,0'"
     (box :class "temp-h"
       (overlay :height 115
         (label :style "padding-left: 10px; padding-top: 5px; font-size: 13px; color: darkgrey;"
@@ -201,9 +327,10 @@
           :valign "start" 
           :halign "end")
         (image 
-          :width 450 
+          :width 420 
           :height 160
-          :valign "center" 
+          :valign "center"
+          :halign "start"
           :fill-svg "none"
           :style "background-color: rgba(40,40,40, 0.7)); border-radius: 10px; "
           :path  temp24-svg
@@ -213,7 +340,6 @@
     )
   )
 )
-
 
 (defwidget weather [internetStatus]
   (box :orientation "v" :spacing 3 
@@ -230,19 +356,36 @@
     (city-input :isVisable "${hover-state}")
     )
   )
-    (box :style "background-color: rgba(40, 40, 40, 1); padding: 10px;" 
+    (box :style "background-color: rgba(40, 40, 40, 1); padding: 10px; border-radius: 10px;" 
          :visible internetStatus 
          :orientation "v" 
-         :space-evenly false
-      (label :wrap true :text "Can reach the server. Check your internet connection!.")
-          (button 
-            :class "reconect-button"
-            :width 20 
-            :height 40
-            :onclick "./scripts/connection_checker.sh"
-
-            (label :wrap false :text "Reconnect")
+         :space-evenly true
+      (label 
+          :class "reconnect-info-text";
+          :wrap true 
+          :text "Can reach the server. Check your internet connection.")
+        (box :orientation "h" 
+             :space-evenly true 
+             :spacing 3
+             :width 250
+             :style "padding-bottom: 20px;"
+          (eventbox 
+              :cursor "pointer"
+              :class "reconect-button"
+              :width 70 
+              :height 40
+              :onclick "sh -c './scripts/connection_checker.sh' &"
+            (label :wrap false :text "Try again")
           )
+          (eventbox 
+               :cursor "pointer"
+               :onclick "${EWW_CMD} update connected='false'"
+               :class "reconect-button"
+               :width 70 
+               :height 40
+            (label :wrap false :text "Dismiss")
+          )
+        )
     )
 
   )
